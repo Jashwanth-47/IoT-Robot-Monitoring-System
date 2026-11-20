@@ -26,8 +26,32 @@ The system enables authenticated operators and administrators to monitor multi-m
 * **Multi-Robot CLI Edge Simulator:**
   * Simulates realistic continuous sensor drift across four physical metrics.
   * Supports command-line arguments (`<ROBOT_ID> <USERNAME> <PASSWORD>`) to run multiple independent robots and user accounts simultaneously across separate terminals.
-
 ---
+## 📸 Dashboard Preview
+
+### 1. Fleet Overview & Supervisory Actuation Control
+Fleet Overview and E-Stop Control
+<img width="1920" height="864" alt="{19B5D3FF-629F-4285-8995-715D04A1495D}" src="https://github.com/user-attachments/assets/bc8e1544-8526-4899-8b34-57b6f7a70bf9" />
+
+### 2. Real-Time Multi-Metric Telemetry Trends
+Multi-Metric Telemetry Trends
+<img width="1559" height="624" alt="{D280B5A7-9748-48BB-A2B6-D6727D5CFDE8}" src="https://github.com/user-attachments/assets/65d96a3d-b0a8-45cd-85db-ce916340a698" />
+
+### 3. Live Incident Management Center
+Incident Management Center
+<img width="1524" height="796" alt="{EC47A36F-5F1E-4DDF-B1E4-2886F2A72B61}" src="https://github.com/user-attachments/assets/2cc6b79c-29ff-4e0b-9328-c9d0efaae097" />
+
+### 4. Resolved Incidents Audit Archive
+Resolved Incidents Archive
+<img width="1023" height="455" alt="af29571c-2798-4f8a-a373-0dd72d580960" src="https://github.com/user-attachments/assets/d562de3d-6d8d-4aa6-ae2d-d2f95b3d41d7" />
+### Special features for admin
+### 5. Register New Robot
+Register New Robot (only for admin user)
+<img width="593" height="391" alt="{270B580C-3B85-46C3-9939-3D895D71BA03}" src="https://github.com/user-attachments/assets/a2d28787-2055-4788-bc84-d281815fca20" />
+
+### 6.  Admin: Create Operator
+Admin: Create Operator (only for admin)
+<img width="327" height="603" alt="{B2FFED71-D9F4-40D7-838B-DCC54D583859}" src="https://github.com/user-attachments/assets/66415a8c-4bea-4586-9297-ea3b4b5de23a" />
 
 ## 📈 Version History & Evolution
 
