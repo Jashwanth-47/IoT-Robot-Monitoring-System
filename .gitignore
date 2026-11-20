@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables & secrets
+.env
+
+# Local SQLite databases
+*.db
+*.sqlite3
+
+# IDE & temporary scratch files
+.vscode/
+tempCodeRunnerFile.py
+dashboard.txt
+test_ws.py
