@@ -4,30 +4,30 @@ A full-stack, real-time Industrial IoT (IIoT) monitoring and supervisory control
 
 The system enables authenticated operators and administrators to monitor multi-metric robot telemetry in real time, detect threshold anomalies automatically, manage incident tickets, and execute instant bidirectional **Emergency Stop (E-Stop)** and **Resume** commands down to edge devices.
 
+---
+
 ## ✨ Core Features
 
 * **Role-Based Access Control (RBAC) & JWT Authentication:**
   * OAuth2 Bearer token authentication (`POST /auth/login`) powered by `security.py`.
   * **Admin-Only Operator Provisioning:** Public self-registration is locked down; only the designated administrator account can create new operator accounts via the UI or API.
   * **Multi-Tenant Fleet Isolation:** Users only view and control robots registered under their respective accounts.
-
 * **Bidirectional Real-Time Communication (Uplink & Downlink):**
   * **Telemetry Uplink:** Edge devices stream temperature (`°C`), vibration (`mm/s`), current draw (`A`), and proximity (`m`) metrics at configurable intervals.
   * **Actuation Downlink:** Persistent WebSocket connections (`/ws/robots/{robot_id}`) deliver sub-second `EMERGENCY_STOP` and `RESUME` commands directly to the robot controller, immediately halting simulated motor execution.
-
 * **Automated Anomaly & Threshold Engine:**
   * Evaluates incoming sensor payloads against safety thresholds (`NORMAL`, `WARNING`, `ERROR`/`CRITICAL`).
   * Automatically logs incident tickets in SQLite when thresholds are breached and broadcasts live alerts over WebSockets.
-
 * **Interactive Supervisory Dashboard (Streamlit):**
   * Live metric cards and auto-refreshing multi-metric trend charts (`st.fragment`).
   * One-click **Emergency Stop** and **Resume Operations** controls with operator reason logging and visual halt state lockouts.
   * **Incident Management Center:** View active unresolved faults, resolve incidents with a single click, and audit the resolved incident archive.
   * **In-App Fleet Onboarding:** Register new robots directly from the dashboard without needing external API clients.
-
 * **Multi-Robot CLI Edge Simulator:**
   * Simulates realistic continuous sensor drift across four physical metrics.
   * Supports command-line arguments (`<ROBOT_ID> <USERNAME> <PASSWORD>`) to run multiple independent robots and user accounts simultaneously across separate terminals.
+
+---
 
 ## 📈 Version History & Evolution
 
@@ -46,6 +46,8 @@ The system enables authenticated operators and administrators to monitor multi-m
 * Implemented basic threshold evaluation (`WARNING` / `ERROR`) and database incident logging.
 * Built the initial read-only Streamlit dashboard for viewing metric cards, historical line charts, and resolving alerts.
 
+---
+
 ## 🛠️ Tech Stack
 
 * **Backend:** Python 3.12, FastAPI, Uvicorn, SQLAlchemy, Pydantic, JWT (`python-jose` / `pwdlib`)
@@ -54,23 +56,28 @@ The system enables authenticated operators and administrators to monitor multi-m
 * **Frontend UI:** Streamlit, Pandas, Requests
 * **Edge Simulation:** Python (`threading`, `asyncio`, `requests`, `websockets`)
 
+---
+
 ## 📂 Project Structure
 
 ```text
 Iot-Robot monitoring system/
-├── app.py              # Main FastAPI backend, REST endpoints, WebSocket manager & threshold engine
+├── main.py             # Entry-point runner script to launch the Uvicorn server (port 8000)
+├── app.py              # Main FastAPI application, REST endpoints, WebSocket manager & threshold engine
 ├── dashboard.py        # Streamlit operator/admin UI, live charts, E-Stop controls & incident center
 ├── simulator.py        # Edge-device telemetry generator & background WebSocket command listener
 ├── database.py         # SQLite database engine & session configuration
 ├── models.py           # SQLAlchemy ORM table definitions (Users, Robots, SensorData, Alerts)
 ├── schemas.py          # Pydantic request/response validation schemas
 ├── security.py         # Password hashing, JWT token generation, and user authentication dependencies
-├── .env                # Environment variables (e.g., SECRET_KEY, algorithm settings)
+├── .env                # Environment variables (e.g., SECRET_KEY, algorithm settings — do not commit)
 ├── robots.db           # Local SQLite database file (auto-generated on startup)
 ├── add_column.py       # Utility script for database schema updates
 ├── migrate_owner.py    # Utility script for migrating robot ownership records
 └── README.md           # Project documentation and setup guide
 ```
+
+---
 
 ## 🚀 Getting Started (Step-by-Step Guide)
 
@@ -84,7 +91,7 @@ pip install fastapi uvicorn sqlalchemy pydantic requests websockets streamlit pa
 ### 2. Configure Your Admin Account & Environment (Important for New Setup)
 Before running the system for the first time, set your own administrator username and environment secrets:
 
-1. **Configure `.env`:** Ensure your `.env` file in the root folder contains your JWT secret key (e.g., `SECRET_KEY=your_super_secret_key`).
+1. **Configure `.env`:** Create a `.env` file in the root folder containing your JWT secret key (e.g., `SECRET_KEY=your_super_secret_key`).
 2. **Set Your Admin Username:**
    * Open `app.py` and locate the `register_user` function (`@app.post("/auth/register")`). Update the admin check (`if current_user.username != "<YOUR_ADMIN_USERNAME>":`) to your chosen admin username.
    * Open `dashboard.py` and update `ADMIN_USERNAME = "<YOUR_ADMIN_USERNAME>"` at the top of the file to match.
@@ -92,12 +99,14 @@ Before running the system for the first time, set your own administrator usernam
 3. **Bootstrap Initial Admin Account:** Since `POST /auth/register` is protected by admin authentication, temporarily comment out the `current_user` check in `app.py` on a fresh database, register your initial admin account via `/docs` (`http://127.0.0.1:8000/docs`), and then uncomment the protection.
 
 ### 3. Start the Backend Server (Terminal 1)
-Launch the FastAPI server using Uvicorn:
+Launch the FastAPI server using the entry-point script:
 
 ```bash
-uvicorn app:app --reload
+python main.py
 ```
-* The API will be live at `http://127.0.0.1:8000`
+*(Alternatively, you can run `uvicorn app:app --reload` directly.)*
+
+* The API will be live at `http://127.0.0.1:8000` (bound to `0.0.0.0:8000`)
 * Interactive Swagger API documentation is available at `http://127.0.0.1:8000/docs`
 
 ### 4. Launch the Supervisory Dashboard (Terminal 2)
@@ -125,6 +134,8 @@ python simulator.py <ROBOT_ID> <USERNAME> <PASSWORD>
   python simulator.py Mark1 operator1 operator1password
   ```
 *(Tip: You can open additional terminals and run `simulator.py` with different `<ROBOT_ID>` values to simulate an entire factory floor simultaneously.)*
+
+---
 
 ## 📖 How to Use the Portal
 
